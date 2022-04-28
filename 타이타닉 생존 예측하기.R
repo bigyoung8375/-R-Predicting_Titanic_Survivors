@@ -1,6 +1,10 @@
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(ggplot2)
+
 # https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=bestinall&logNo=221507507813
 # https://www.kaggle.com/c/titanic
-
 
 getwd()
 setwd("C:/Users/Samsung/Desktop/빅분기실기준비/타이타닉 생존자 예측")
@@ -38,24 +42,17 @@ test_df$Age <- ifelse(is.na(test_df$Age) == TRUE, mean(test_df$Age, na.rm = TRUE
 train_df$Age <- ifelse(is.na(train_df$Age) == TRUE, mean(train_df$Age, na.rm = TRUE), train_df$Age)
 
 # 성별에 따른 생존여부
-install.packages("ggplot2")
-library(ggplot2)
 
 ggplot_sex <- ggplot(train_df, aes(x = Survived,fill = Sex)) + geom_bar(size = 10, width= .6) +
   theme_bw() + coord_fixed(ratio=1/210)
 ggplot_sex
 
-install.packages("rpart")
-install.packages("rpart.plot")
-install.packages("randomForest")
-library(rpart)
-library(rpart.plot)
-library(randomForest)
 
 # 랜덤포레스트
 randomfor <- randomForest(Survived ~ Pclass + Age + Sex, data = train_df)
 randomfor_info <- randomForest(Survived ~ Sex + Age + Pclass, data = train_df, importance = T)
 importance(randomfor_info)
+
 randomfor_pre <- predict(randomfor, newdata = test_df, type="response")
 Titanic_randomFor <- data.frame(PassengerId = test_df$PassengerId, Survived = randomfor_pre)
 head(Titanic_randomFor)
@@ -63,13 +60,183 @@ head(Titanic_randomFor)
 varImpPlot(randomfor_info)
 
 
-
 refer_df <- read.csv("gender_submission.csv")
 refer_df$Survived <- as.factor(refer_df$Survived)
 caret::confusionMatrix(data = Titanic_randomFor$Survived, reference = refer_df[,2])
 
+write.csv(Titanic_randomFor, file="Titanic_randomFor.csv", row.names = FALSE)
 
-write.csv(Titanic_randomFor, file="Titanic_randomFor.csv", row.names=FALSE)
+# 로지스틱 회귀
+df_glm = glm(Survived ~ ., family = binomial, data = train_df)
+
+step_model = step(df_glm, direction = "backward")
+summary(step_model)
+
+
+pred = predict(step_model, newdata = test_df, type="response")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
