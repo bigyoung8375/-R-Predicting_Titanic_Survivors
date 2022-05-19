@@ -1,5 +1,6 @@
 # -R--Predicting-Titanic-Survivors
 R을 활용한 타이타닉 생존자 예측입니다.
+랜덤포레스트, 로지스틱회귀 사용
 
 ### fileSet
 [gender_submission.csv](https://github.com/chang0-0/-R--Predicting-Titanic-Survivors/files/8581733/gender_submission.csv)
