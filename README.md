@@ -420,9 +420,9 @@ write.csv(file = "logistic_pred.csv", predictions, row.names = FALSE)
       
 ![](https://velog.velcdn.com/images/lifeisbeautiful/post/aa633ebc-18d4-428b-aebb-aae093ecb1e1/image.png)
 
-
-
 랜덤포레스트 정확도는 76% 정도가 나왔고, 로지스틱 회귀 분석은 75%정도가 나왔습니다. 미세하긴 하지만 랜덤포레스트가 아주 약간 우세합니다.
 
 처음에 생존여부를 "Yes"와 "No"로 나눴을 때, 0점이 나와서 당황했는데,
 0과 1로 다시 바꿔주니까 제대로된 결과를 얻을 수 있었습니다.
+
+
